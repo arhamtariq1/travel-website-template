@@ -1,8 +1,8 @@
 "use client";
 
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion, useScroll, useTransform } from "framer-motion";
 import Image from "next/image";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { TravelNavbar } from "@/components/ui/travel-navbar";
 import { TravelSections } from "@/components/landing/travel-sections";
 
@@ -35,6 +35,17 @@ const slides = [
 
 export default function Home() {
   const [active, setActive] = useState(0);
+  const heroRef = useRef<HTMLElement>(null);
+
+  const { scrollYProgress } = useScroll({
+    target: heroRef,
+    offset: ["start start", "end start"],
+  });
+
+  const heroImageScale = useTransform(scrollYProgress, [0, 1], [1, 1.14]);
+  const heroImageY = useTransform(scrollYProgress, [0, 1], [0, 140]);
+  const heroContentY = useTransform(scrollYProgress, [0, 0.7], [0, 80]);
+  const heroContentOpacity = useTransform(scrollYProgress, [0, 0.55], [1, 0]);
 
   useEffect(() => {
     const id = window.setInterval(() => {
@@ -46,11 +57,14 @@ export default function Home() {
   const current = useMemo(() => slides[active], [active]);
 
   return (
-    <main className="min-h-screen overflow-x-hidden bg-black">
+    <main className="relative z-10 min-h-screen overflow-x-clip bg-transparent">
       <TravelNavbar />
 
-      {/* Hero Section */}
-      <section className="relative isolate min-h-[100vh] overflow-hidden">
+      {/* Hero Section — scroll parallax + slide crossfade */}
+      <section
+        ref={heroRef}
+        className="relative isolate min-h-[100vh] overflow-hidden"
+      >
         <AnimatePresence mode="wait">
           <motion.div
             key={current.image}
@@ -60,27 +74,38 @@ export default function Home() {
             transition={{ duration: 0.65, ease: "easeInOut" }}
             className="absolute inset-0"
           >
-            <Image
-              src={current.image}
-              alt={current.location}
-              fill
-              priority
-              sizes="100vw"
-              className="object-cover"
-            />
+            <motion.div
+              className="absolute inset-0 will-change-transform"
+              style={{
+                scale: heroImageScale,
+                y: heroImageY,
+              }}
+            >
+              <Image
+                src={current.image}
+                alt={current.location}
+                fill
+                priority
+                sizes="100vw"
+                className="object-cover"
+              />
+            </motion.div>
           </motion.div>
         </AnimatePresence>
 
         <div className="absolute inset-0 bg-[linear-gradient(to_bottom,rgba(4,9,20,0.25),rgba(2,6,15,0.45)_42%,rgba(2,8,20,0.82))]" />
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_20%,rgba(255,255,255,0.14),transparent_35%)]" />
 
-        <div className="relative z-10 mx-auto flex min-h-[96vh] w-full max-w-7xl flex-col justify-end px-5 pb-8 pt-20 md:px-10 md:pb-5">
+        <motion.div
+          style={{ y: heroContentY, opacity: heroContentOpacity }}
+          className="relative z-10 mx-auto flex min-h-[96vh] w-full max-w-7xl flex-col justify-end px-5 pb-8 pt-20 md:px-10 md:pb-5"
+        >
           <motion.p
             key={`location-${active}`}
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
-            className="mb-2 text-center text-sm uppercase tracking-[0.22em] text-zinc-200/90"
+            className="mb-2 text-center text-sm uppercase tracking-[0.22em] text-white/90 [text-shadow:0_1px_3px_rgba(0,0,0,0.55)]"
           >
             {current.location}
           </motion.p>
@@ -90,7 +115,7 @@ export default function Home() {
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.55, delay: 0.05 }}
-            className="text-center text-[clamp(4.3rem,16vw,15.5rem)] font-semibold leading-[0.85] tracking-[-0.04em] text-white/95"
+            className="font-display text-center text-[clamp(4.3rem,16vw,15.5rem)] font-semibold leading-[0.85] tracking-[-0.04em] text-white [text-shadow:0_2px_24px_rgba(0,0,0,0.45),0_4px_40px_rgba(0,0,0,0.25)]"
           >
             {current.title}
           </motion.h1>
@@ -119,17 +144,16 @@ export default function Home() {
                     <motion.div
                       animate={{ width: active === idx ? "100%" : "0%" }}
                       transition={{ duration: 0.35, ease: "easeOut" }}
-                      className="h-full rounded-full bg-white"
+                      className="h-full rounded-full bg-sky-400"
                     />
                   </div>
                 </button>
               ))}
             </div>
           </div>
-        </div>
+        </motion.div>
       </section>
 
-      {/* All Landing Sections */}
       <TravelSections />
     </main>
   );

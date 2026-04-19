@@ -1,8 +1,21 @@
 import './globals.css';
 import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
+import { Cormorant_Garamond, DM_Sans } from 'next/font/google';
+import { AppProviders } from '@/components/providers/app-providers';
+import { SkyGradientLayer } from '@/components/ui/gradient-backgrounds';
 
-const inter = Inter({ subsets: ['latin'] });
+/** Refined serif for headlines — travel / editorial feel */
+const cormorant = Cormorant_Garamond({
+  subsets: ['latin'],
+  variable: '--font-display',
+  weight: ['400', '500', '600', '700'],
+});
+
+/** Clean geometric sans for UI and body */
+const dmSans = DM_Sans({
+  subsets: ['latin'],
+  variable: '--font-body',
+});
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -16,7 +29,15 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body
+        className={`${dmSans.className} ${cormorant.variable} ${dmSans.variable} relative min-h-screen antialiased`}
+      >
+        {/* Full-page sky radial behind all routes; hero photos sit above as opaque layers */}
+        <SkyGradientLayer fixed className="z-0" />
+        <AppProviders>
+          <div className="relative z-10">{children}</div>
+        </AppProviders>
+      </body>
     </html>
   );
 }

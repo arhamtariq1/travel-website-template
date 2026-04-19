@@ -7,7 +7,7 @@ import { TravelSocialContactFooter } from "@/components/landing/travel-social-co
 
 export function TravelSections() {
   return (
-    <div className="relative z-10 bg-[#0a0a0a]">
+    <div className="relative z-10 bg-transparent">
       <TravelMarqueeStats />
       <TravelExperiencesDestinations />
       <TravelVisualHow />

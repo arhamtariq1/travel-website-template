@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
 import { VerticalImageStack } from "@/components/ui/vertical-image-stack";
-import { fadeUp, stagger } from "@/components/landing/travel-shared";
+import { blurReveal, tiltReveal } from "@/components/landing/travel-shared";
 
 const steps = [
   {
@@ -31,27 +31,27 @@ const steps = [
 export function TravelVisualHow() {
   return (
     <>
-      <section className="border-y border-white/10 px-6 py-10 md:px-10">
+      <section className="border-y border-sky-200/60 px-6 py-10 md:px-10">
         <div className="mx-auto grid max-w-7xl gap-8 lg:grid-cols-[1fr_1.2fr]">
-          <motion.div {...fadeUp} className="flex flex-col justify-center py-10">
-            <p className="text-xs uppercase tracking-[0.3em] text-zinc-400">
+          <motion.div {...blurReveal} className="flex flex-col justify-center py-10">
+            <p className="text-xs uppercase tracking-[0.3em] text-sky-700/70">
               Visual Stories
             </p>
-            <h2 className="mt-4 text-3xl font-semibold text-white md:text-5xl">
+            <h2 className="font-display mt-4 text-3xl font-semibold text-sky-950 md:text-5xl">
               Moments that
-              <span className="block bg-gradient-to-r from-amber-200 to-amber-400 bg-clip-text text-transparent">
+              <span className="block bg-gradient-to-r from-sky-600 to-cyan-500 bg-clip-text text-transparent">
                 take your breath away
               </span>
             </h2>
-            <p className="mt-4 max-w-md text-zinc-400">
+            <p className="mt-4 max-w-md text-slate-600">
               Scroll through our curated collection of unforgettable travel
               moments captured across every continent.
             </p>
             <div className="mt-8 flex gap-3">
-              <button className="rounded-full bg-white px-6 py-2.5 text-sm font-medium text-black transition hover:bg-zinc-200">
+              <button className="rounded-full bg-sky-600 px-6 py-2.5 text-sm font-medium text-white shadow-md shadow-sky-500/25 transition hover:bg-sky-700">
                 Explore Gallery
               </button>
-              <button className="group inline-flex items-center gap-2 rounded-full border border-white/15 px-6 py-2.5 text-sm text-zinc-300 transition hover:bg-white/[0.06]">
+              <button className="group inline-flex items-center gap-2 rounded-full border border-sky-300/90 bg-white/70 px-6 py-2.5 text-sm text-sky-900 transition hover:bg-sky-50">
                 Learn more
                 <ArrowUpRight className="h-3.5 w-3.5 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
               </button>
@@ -62,11 +62,11 @@ export function TravelVisualHow() {
       </section>
 
       <section className="px-6 py-20 md:px-10">
-        <motion.div {...fadeUp} className="mx-auto max-w-6xl text-center">
-          <p className="text-xs uppercase tracking-[0.3em] text-zinc-400">
+        <motion.div {...blurReveal} className="mx-auto max-w-6xl text-center">
+          <p className="text-xs uppercase tracking-[0.3em] text-sky-700/90">
             How It Works
           </p>
-          <h2 className="mt-4 text-3xl font-semibold text-white md:text-5xl">
+          <h2 className="font-display mt-4 text-3xl font-semibold text-sky-950 md:text-5xl">
             Your journey in 4 simple steps
           </h2>
         </motion.div>
@@ -75,15 +75,18 @@ export function TravelVisualHow() {
           {steps.map((item, i) => (
             <motion.div
               key={item.step}
-              {...stagger}
-              transition={{ delay: i * 0.12, duration: 0.5 }}
-              className="group relative border-l border-white/10 py-8 pl-8 first:border-l-0 first:pl-0 md:py-0"
+              {...tiltReveal}
+              transition={{
+                ...tiltReveal.transition,
+                delay: i * 0.11,
+              }}
+              className="group relative border-l border-sky-200/70 py-8 pl-8 first:border-l-0 first:pl-0 md:py-0"
             >
-              <span className="text-5xl font-extralight text-white/10 transition-colors duration-500 group-hover:text-amber-300/30">
+              <span className="text-5xl font-extralight text-sky-400 transition-colors duration-500 group-hover:text-sky-400/80">
                 {item.step}
               </span>
-              <h3 className="mt-3 text-lg font-semibold text-white">{item.title}</h3>
-              <p className="mt-2 text-sm leading-relaxed text-zinc-400">
+              <h3 className="mt-3 text-lg font-semibold text-slate-800">{item.title}</h3>
+              <p className="mt-2 text-sm leading-relaxed text-slate-600">
                 {item.desc}
               </p>
             </motion.div>

@@ -1,10 +1,33 @@
 "use client";
 
+/** Smooth “editorial” ease — fast settle, slow start */
+const easeOutExpo: [number, number, number, number] = [0.16, 1, 0.3, 1];
+
 export const fadeUp = {
   initial: { opacity: 0, y: 30 },
   whileInView: { opacity: 1, y: 0 },
   viewport: { once: true, amount: 0.3 as const },
   transition: { duration: 0.6, ease: "easeOut" as const },
+};
+
+/** Large blocks: slides up with blur clearing — high impact on scroll */
+export const blurReveal = {
+  initial: { opacity: 0, y: 52, filter: "blur(12px)" },
+  whileInView: { opacity: 1, y: 0, filter: "blur(0px)" },
+  viewport: {
+    once: true,
+    amount: 0.15 as const,
+    margin: "0px 0px -10% 0px",
+  },
+  transition: { duration: 0.8, ease: easeOutExpo },
+};
+
+/** Cards / tiles: slight scale + rotation */
+export const tiltReveal = {
+  initial: { opacity: 0, y: 40, scale: 0.94, rotateZ: -1.2 },
+  whileInView: { opacity: 1, y: 0, scale: 1, rotateZ: 0 },
+  viewport: { once: true, amount: 0.18 as const, margin: "0px 0px -12% 0px" },
+  transition: { duration: 0.7, ease: easeOutExpo },
 };
 
 export const stagger = {

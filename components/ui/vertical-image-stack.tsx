@@ -110,7 +110,7 @@ export function VerticalImageStack() {
       className="relative flex h-[85vh] w-full items-center justify-center overflow-hidden"
     >
       <div className="pointer-events-none absolute inset-0">
-        <div className="absolute left-1/2 top-1/2 h-[600px] w-[600px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-white/[0.02] blur-3xl" />
+        <div className="absolute left-1/2 top-1/2 h-[600px] w-[600px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-sky-200/35 blur-3xl" />
       </div>
 
       <div
@@ -141,11 +141,11 @@ export function VerticalImageStack() {
               style={{ transformStyle: "preserve-3d", zIndex: style.zIndex }}
             >
               <div
-                className="relative h-[420px] w-[280px] overflow-hidden rounded-3xl border border-white/10"
+                className="relative h-[420px] w-[280px] overflow-hidden rounded-3xl border border-sky-200/90"
                 style={{
                   boxShadow: isCurrent
-                    ? "0 25px 50px -12px rgba(0,0,0,0.5)"
-                    : "0 10px 30px -10px rgba(0,0,0,0.3)",
+                    ? "0 25px 50px -12px rgba(14,165,233,0.22)"
+                    : "0 10px 30px -10px rgba(14,165,233,0.12)",
                 }}
               >
                 <Image
@@ -156,7 +156,7 @@ export function VerticalImageStack() {
                   draggable={false}
                   priority={isCurrent}
                 />
-                <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-black/60 to-transparent" />
+                <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-slate-900/45 to-transparent" />
               </div>
             </motion.div>
           );
@@ -170,8 +170,8 @@ export function VerticalImageStack() {
             onClick={() => setCurrentIndex(index)}
             className={`h-2 w-2 rounded-full transition-all duration-300 ${
               index === currentIndex
-                ? "h-6 bg-white"
-                : "bg-white/30 hover:bg-white/50"
+                ? "h-6 bg-sky-600"
+                : "bg-sky-300/80 hover:bg-sky-400"
             }`}
             aria-label={`Go to image ${index + 1}`}
           />
@@ -184,7 +184,7 @@ export function VerticalImageStack() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 1, duration: 0.6 }}
       >
-        <div className="flex flex-col items-center gap-2 text-zinc-400">
+        <div className="flex flex-col items-center gap-2 text-sky-700/70">
           <motion.div
             animate={{ y: [0, -8, 0] }}
             transition={{
@@ -235,11 +235,11 @@ export function VerticalImageStack() {
 
       <div className="absolute left-8 top-1/2 -translate-y-1/2">
         <div className="flex flex-col items-center">
-          <span className="tabular-nums text-4xl font-light text-white">
+          <span className="tabular-nums text-4xl font-light text-sky-950">
             {String(currentIndex + 1).padStart(2, "0")}
           </span>
-          <div className="my-2 h-px w-8 bg-white/20" />
-          <span className="tabular-nums text-sm text-zinc-400">
+          <div className="my-2 h-px w-8 bg-sky-300/80" />
+          <span className="tabular-nums text-sm text-sky-700/70">
             {String(images.length).padStart(2, "0")}
           </span>
         </div>
